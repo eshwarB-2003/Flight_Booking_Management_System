@@ -42,4 +42,6 @@ CREATE TABLE booking_ancillary (
     FOREIGN KEY (item_id) REFERENCES ancillary_item(item_id)
 );
 
+
+
 SELECT current_database();
