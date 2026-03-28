@@ -7,5 +7,6 @@
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/NotificationService/src/main/resources/schema_5.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/PaymentService/src/main/resources/schema_4.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/UserService/src/main/resources/schema_1.sql" dialect="PostgreSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>
