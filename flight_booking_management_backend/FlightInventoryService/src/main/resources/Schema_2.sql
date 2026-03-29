@@ -20,9 +20,25 @@ ALTER TABLE aircraft
 ALTER COLUMN aircraft_id TYPE VARCHAR;
 
 
+
 SELECT * FROM  aircraft;
 Select * FROM aircraft_class;
 
+ALTER TABLE aircraft
+ALTER COLUMN model SET NOT NULL;
+
+ALTER TABLE aircraft
+ALTER COLUMN manufacturer SET NOT NULL;
+
+ALTER TABLE aircraft
+ALTER COLUMN total_capacity SET NOT NULL;
+
+ALTER TABLE aircraft_class
+ALTER COLUMN aircraft_id SET NOT NULL;
+
+ALTER TABLE aircraft_class
+ADD CONSTRAINT chk_class_name
+CHECK (class_name IN ('Economy','Business','First'));
 INSERT INTO aircraft (aircraft_id, model, manufacturer, total_capacity)
 VALUES
 ('ASD001', 'A320', 'Airbus', 180),
@@ -35,8 +51,6 @@ VALUES
 ('ASD001', 'Economy', 120, 50000.00, 'ACTIVE'),
 ('ASD002', 'Business', 40, 80000.00, 'ACTIVE');
 
-SELECT * from aircraft_class;
-
 CREATE TABLE seat_map (
     seat_map_id SERIAL PRIMARY KEY,
     aircraft_id VARCHAR,
@@ -44,7 +58,8 @@ CREATE TABLE seat_map (
     cols INT,
     FOREIGN KEY (aircraft_id) REFERENCES aircraft(aircraft_id)
 );
-
+ALTER TABLE seat_map
+ALTER COLUMN aircraft_id SET NOT NULL;
 Select * from seat_map;
 
 CREATE TABLE seat (
@@ -57,6 +72,16 @@ CREATE TABLE seat (
     FOREIGN KEY (seat_map_id) REFERENCES seat_map(seat_map_id),
     FOREIGN KEY (class_id) REFERENCES aircraft_class(class_id)
 );
+
+ALTER TABLE seat
+ALTER COLUMN seat_map_id SET NOT NULL;
+
+ALTER TABLE seat
+ALTER COLUMN class_id SET NOT NULL;
+
+ALTER TABLE seat
+ADD CONSTRAINT chk_seat_status
+CHECK (seat_status IN ('AVAILABLE','LOCKED','OCCUPIED'));
 
 CREATE TABLE flight (
     flight_id SERIAL PRIMARY KEY,
@@ -72,7 +97,9 @@ CREATE TABLE flight (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (aircraft_id) REFERENCES aircraft(aircraft_id)
 );
-
+ALTER TABLE flight
+ADD CONSTRAINT chk_flight_status
+CHECK (status IN ('SCHEDULED','DELAYED','CANCELLED'));
 CREATE TABLE flight_schedule (
     schedule_id SERIAL PRIMARY KEY,
     flight_id INT,
@@ -85,4 +112,7 @@ CREATE TABLE flight_schedule (
 
     FOREIGN KEY (flight_id) REFERENCES flight(flight_id)
 );
+ALTER TABLE flight_schedule
+ADD CONSTRAINT chk_schedule_status
+CHECK (status IN ('ACTIVE','CANCELLED'));
 SELECT current_database();
