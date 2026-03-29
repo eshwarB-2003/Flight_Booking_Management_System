@@ -8,3 +8,4 @@ CREATE TABLE audit_log (
     details TEXT,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+SELECT * FROM audit_log;
