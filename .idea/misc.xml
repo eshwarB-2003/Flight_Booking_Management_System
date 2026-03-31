@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/flight_booking_management_backend/FlightInventoryService/pom.xml" />
         <option value="$PROJECT_DIR$/flight_booking_management_backend/NotificationService/pom.xml" />
         <option value="$PROJECT_DIR$/flight_booking_management_backend/BookingService/pom.xml" />
+        <option value="$PROJECT_DIR$/flight_booking_management_backend/UserService/pom.xml" />
       </list>
     </option>
   </component>
