@@ -1,14 +1,14 @@
 server:
   port: 8080
 
-spring:yourpassword
+spring:
   application:
     name: user-service
 
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: yourpassword
+    password: B20in021$
     driver-class-name: org.postgresql.Driver
 
   jpa:
