@@ -1,6 +1,5 @@
 package com.flightbooking.UserService.Service;
 
-
 import com.flightbooking.UserService.DTO.AuthResponse;
 import com.flightbooking.UserService.DTO.ChangePasswordRequest;
 import com.flightbooking.UserService.DTO.LoginRequest;
@@ -13,9 +12,10 @@ import com.flightbooking.UserService.Security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -27,28 +27,31 @@ public class UserAccountService {
     private final JwtService jwtService;
 
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
+
+        String assignedRole = (request.getRole() != null && !request.getRole().isBlank())
+                ? request.getRole().toUpperCase()
+                : "PASSENGER";
 
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phoneNumber(request.getPhoneNumber())
-                .role("PASSENGER")
+                .role(assignedRole)
                 .accountStatus("ACTIVE")
+                .updatedAt(LocalDateTime.now())
                 .build();
 
         User savedUser = userRepository.save(user);
 
-        UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername(savedUser.getEmail())
-                .password(savedUser.getPassword())
-                .roles(savedUser.getRole())
-                .build();
-
-        String token = jwtService.generateToken(userDetails, savedUser.getUserId(), savedUser.getRole());
+        String token = jwtService.generateToken(
+                savedUser.getEmail(),
+                savedUser.getUserId(),
+                savedUser.getRole()
+        );
 
         return AuthResponse.builder()
                 .token(token)
@@ -63,23 +66,24 @@ public class UserAccountService {
 
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
         );
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!"ACTIVE".equalsIgnoreCase(user.getAccountStatus())) {
-            throw new RuntimeException("Account is not active");
+            throw new RuntimeException("Account is deactivated");
         }
 
-        UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
-                .password(user.getPassword())
-                .roles(user.getRole())
-                .build();
-
-        String token = jwtService.generateToken(userDetails, user.getUserId(), user.getRole());
+        String token = jwtService.generateToken(
+                user.getEmail(),
+                user.getUserId(),
+                user.getRole()
+        );
 
         return AuthResponse.builder()
                 .token(token)
@@ -105,6 +109,7 @@ public class UserAccountService {
 
         user.setFullName(request.getFullName());
         user.setPhoneNumber(request.getPhoneNumber());
+        user.setUpdatedAt(LocalDateTime.now());
 
         User updatedUser = userRepository.save(user);
         return mapToUserResponse(updatedUser);
@@ -119,6 +124,7 @@ public class UserAccountService {
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
 
         return "Password changed successfully";
@@ -129,6 +135,7 @@ public class UserAccountService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setAccountStatus("DEACTIVATED");
+        user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
 
         return "Account deactivated successfully";

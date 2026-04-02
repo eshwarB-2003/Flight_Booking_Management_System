@@ -22,4 +22,5 @@ public class RegisterRequest {
 
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
+    private String role;
 }
