@@ -11,14 +11,13 @@ import java.util.Optional;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
-    // Get available seats for a schedule
+    // get available seats for a schedule
     List<Seat> findBySchedule_ScheduleIdAndSeatStatus(Long scheduleId, SeatStatus seatStatus);
 
-    // Find specific seat in a schedule
+    // find specific seat in a schedule
     Optional<Seat> findBySchedule_ScheduleIdAndSeatNumber(Long scheduleId, String seatNumber);
 
     void deleteBySchedule_ScheduleId(Long scheduleId);
-    // (Optional optimization)
     boolean existsBySchedule_ScheduleIdAndSeatStatus(
             Long scheduleId,
             SeatStatus seatStatus
