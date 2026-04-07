@@ -82,6 +82,8 @@ ALTER COLUMN class_id SET NOT NULL;
 ALTER TABLE seat
 ADD CONSTRAINT chk_seat_status
 CHECK (seat_status IN ('AVAILABLE','LOCKED','OCCUPIED'));
+ALTER TABLE seat
+ALTER COLUMN seat_id TYPE BIGINT;
 
 CREATE TABLE flight (
     flight_id SERIAL PRIMARY KEY,
@@ -109,9 +111,20 @@ CREATE TABLE flight_schedule (
     arrival_time TIMESTAMP,
     available_seats INT,
     status VARCHAR(20),
+    aircraft_id int not null,
 
     FOREIGN KEY (flight_id) REFERENCES flight(flight_id)
 );
+
+
+ALTER TABLE flight_schedule
+ALTER COLUMN aircraft_id TYPE VARCHAR;
+
+ALTER TABLE flight_schedule
+ADD CONSTRAINT fk_aircraft
+FOREIGN KEY (aircraft_id)
+REFERENCES aircraft(aircraft_id);
+
 ALTER TABLE flight_schedule
 ADD CONSTRAINT chk_schedule_status
 CHECK (status IN ('ACTIVE','CANCELLED'));
