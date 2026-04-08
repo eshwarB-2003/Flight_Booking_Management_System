@@ -21,6 +21,3 @@ VALUES ('Vaitheeshwar', '25009907@studentmail.ul.ie', '123456', '0894666008', 'P
 
 SELECT * FROM users;
 SELECT current_database();
-SELECT user_id, full_name, email, password
-FROM users
-WHERE email = 'ziauddin@example.com';

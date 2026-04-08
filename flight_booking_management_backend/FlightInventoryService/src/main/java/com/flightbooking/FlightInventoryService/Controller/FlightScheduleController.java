@@ -1,4 +1,4 @@
-package com.flightbooking.FlightInventoryService.Controller;
+package com.flightbooking.FlightInventoryService.controller;
 
 import com.flightbooking.FlightInventoryService.Entity.FlightSchedule;
 import com.flightbooking.FlightInventoryService.Service.FlightScheduleService;

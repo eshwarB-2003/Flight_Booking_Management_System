@@ -1,4 +1,4 @@
-package com.flightbooking.FlightInventoryService.Controller;
+package com.flightbooking.FlightInventoryService.controller;
 
 import com.flightbooking.FlightInventoryService.Entity.Seat;
 import com.flightbooking.FlightInventoryService.Service.SeatService;

@@ -42,4 +42,60 @@ public class Flight {
     @Column(nullable = false)
     private Double basePrice;
 
+	public Long getFlightId() {
+		return flightId;
+	}
+
+	public void setFlightId(Long flightId) {
+		this.flightId = flightId;
+	}
+
+	public String getFlightNumber() {
+		return flightNumber;
+	}
+
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
+
+	public String getAirline() {
+		return airline;
+	}
+
+	public void setAirline(String airline) {
+		this.airline = airline;
+	}
+
+	public String getDepartureCity() {
+		return departureCity;
+	}
+
+	public void setDepartureCity(String departureCity) {
+		this.departureCity = departureCity;
+	}
+
+	public String getDepartureDestination() {
+		return departureDestination;
+	}
+
+	public void setDepartureDestination(String departureDestination) {
+		this.departureDestination = departureDestination;
+	}
+
+	public FlightStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(FlightStatus status) {
+		this.status = status;
+	}
+
+	public Double getBasePrice() {
+		return basePrice;
+	}
+
+	public void setBasePrice(Double basePrice) {
+		this.basePrice = basePrice;
+	}
+
 }

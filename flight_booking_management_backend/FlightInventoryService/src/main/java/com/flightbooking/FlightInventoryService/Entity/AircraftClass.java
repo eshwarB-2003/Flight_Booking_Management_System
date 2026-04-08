@@ -30,6 +30,56 @@ public class AircraftClass {
 
     private String status;
 
+	public Long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(Long classId) {
+		this.classId = classId;
+	}
+
+	public Aircraft getAircraft() {
+		return aircraft;
+	}
+
+	public void setAircraft(Aircraft aircraft) {
+		this.aircraft = aircraft;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public Integer getSeatCount() {
+		return seatCount;
+	}
+
+	public void setSeatCount(Integer seatCount) {
+		this.seatCount = seatCount;
+	}
+
+	public Double getPriceMultiplier() {
+		return priceMultiplier;
+	}
+
+	public void setPriceMultiplier(Double priceMultiplier) {
+		this.priceMultiplier = priceMultiplier;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+    
+    
+
 
 }
 

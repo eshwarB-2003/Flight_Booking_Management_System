@@ -22,7 +22,39 @@ public class SeatMap {
     private int cols;  // 6 SO rows * cols is 180 seats
 
 
-    // Link to Aircraft
+    public Long getSeatMapId() {
+		return seatMapId;
+	}
+
+	public void setSeatMapId(Long seatMapId) {
+		this.seatMapId = seatMapId;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public int getCols() {
+		return cols;
+	}
+
+	public void setCols(int cols) {
+		this.cols = cols;
+	}
+
+	public Aircraft getAircraft() {
+		return aircraft;
+	}
+
+	public void setAircraft(Aircraft aircraft) {
+		this.aircraft = aircraft;
+	}
+
+	// Link to Aircraft
     @OneToOne
     @JsonBackReference
     @JoinColumn(name = "aircraft_id")

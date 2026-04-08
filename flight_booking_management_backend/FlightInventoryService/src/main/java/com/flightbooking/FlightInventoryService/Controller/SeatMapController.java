@@ -1,4 +1,4 @@
-package com.flightbooking.FlightInventoryService.Controller;
+package com.flightbooking.FlightInventoryService.controller;
 
 import com.flightbooking.FlightInventoryService.DTO.SeatMapRequest;
 import com.flightbooking.FlightInventoryService.Entity.SeatMap;
