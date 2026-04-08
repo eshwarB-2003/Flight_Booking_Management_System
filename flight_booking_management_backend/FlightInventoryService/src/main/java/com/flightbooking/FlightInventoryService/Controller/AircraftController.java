@@ -23,7 +23,7 @@ public class AircraftController {
     public Aircraft getAircraft(@PathVariable String id) {
         return aircraftService.findById(id);
     }
-    @PutMapping("/updateAircraft{id}")
+    @PutMapping("/updateAircraft/{id}")
     public Aircraft updateAircraft(@PathVariable String id, @RequestBody Aircraft updatedAircraft) {
 
         return aircraftService.updateAircraft(id, updatedAircraft);
