@@ -1,7 +1,8 @@
 package com.flightbooking.FlightInventoryService.Controller;
 
 
-import com.flightbooking.FlightInventoryService.Entity.Flight;
+import com.flightbooking.FlightInventoryService.DTO.FlightRequestDTO;
+import com.flightbooking.FlightInventoryService.DTO.FlightResponseDTO;
 import com.flightbooking.FlightInventoryService.Service.FlightService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ import java.util.List;
         private FlightService flightService;
 
         @PostMapping("/createAFlight")
-        public Flight createFlight(@Valid @RequestBody Flight flight) {
-            return flightService.saveFlight(flight);
+        public FlightResponseDTO createFlight(@Valid @RequestBody FlightRequestDTO dto) {
+            return flightService.saveFlight(dto);
         }
         @GetMapping("/showAllflights")
-        public List<Flight> getAllFlights(){
+        public List<FlightResponseDTO> getAllFlights(){
             return flightService.getAllFlights();
         }
     @DeleteMapping("/delete/{id}")

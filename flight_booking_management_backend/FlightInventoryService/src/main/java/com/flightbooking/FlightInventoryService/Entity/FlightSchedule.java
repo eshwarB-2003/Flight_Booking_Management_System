@@ -2,13 +2,19 @@ package com.flightbooking.FlightInventoryService.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
     @Entity
     @Table(name = "flight_schedule")
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Data
     public class FlightSchedule {
 

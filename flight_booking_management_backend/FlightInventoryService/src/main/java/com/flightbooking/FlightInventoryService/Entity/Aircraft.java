@@ -45,7 +45,7 @@ public class Aircraft {
     @OneToOne(mappedBy = "aircraft", cascade = CascadeType.ALL, orphanRemoval = true)
     private SeatMap seatMap;
     @JsonManagedReference
-    @OneToMany(mappedBy = "aircraft", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "aircraft", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AircraftClass> classes = new ArrayList<>();
 
     public void addClass(AircraftClass cls) {

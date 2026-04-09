@@ -1,6 +1,7 @@
 package com.flightbooking.FlightInventoryService.Controller;
 
-import com.flightbooking.FlightInventoryService.Entity.FlightSchedule;
+import com.flightbooking.FlightInventoryService.DTO.FlightScheduleRequestDTO;
+import com.flightbooking.FlightInventoryService.DTO.FlightScheduleResponseDTO;
 import com.flightbooking.FlightInventoryService.Service.FlightScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +15,19 @@ public class FlightScheduleController {
     @Autowired
     private FlightScheduleService service;
 
-    @PostMapping
-    public FlightSchedule create(@RequestBody FlightSchedule request) {
-        return service.createSchedule(request);
+    @PostMapping("/createSchedule")
+    public FlightScheduleResponseDTO create(@RequestBody FlightScheduleRequestDTO dto) {
+        return service.createSchedule(dto);
     }
-    @PutMapping("/{id}")
-    public FlightSchedule updateSchedule(
+    @PutMapping("/updateSchedule/{id}")
+    public FlightScheduleResponseDTO updateSchedule(
             @PathVariable Long id,
-            @RequestBody FlightSchedule request) {
+            @RequestBody FlightScheduleRequestDTO dto) {
 
-        return service.updateSchedule(id, request);
+        return service.updateSchedule(id, dto);
     }
     @GetMapping("/showAll")
-    public List<FlightSchedule> getAllSchedules() {
+    public List<FlightScheduleResponseDTO> getAllSchedules() {
         return service.getAllSchedules();
     }
 }

@@ -1,6 +1,6 @@
 package com.flightbooking.FlightInventoryService.Controller;
 
-import com.flightbooking.FlightInventoryService.Entity.Seat;
+import com.flightbooking.FlightInventoryService.DTO.SeatResponseDTO;
 import com.flightbooking.FlightInventoryService.Service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,17 @@ public class SeatController {
     private SeatService seatService;
     // get aall available seats for a schedule
     @GetMapping("/available/{scheduleId}")
-    public List<Seat> getAvailableSeats(@PathVariable Long scheduleId) {
+    public List<SeatResponseDTO> getAvailableSeats(@PathVariable Long scheduleId) {
         return seatService.getAvailableSeats(scheduleId);
     }
-    @PostMapping("/book")
-    public Seat bookSeat(@RequestParam Long scheduleId,
+    @PostMapping("/{scheduleId}/book")
+    public SeatResponseDTO bookSeat(@PathVariable Long scheduleId,
                          @RequestParam String seatNumber) {
 
         return seatService.bookSeat(scheduleId, seatNumber);
     }
-    @PostMapping("/lock")
-    public Seat lockSeat(@RequestParam Long scheduleId,
+    @PostMapping("{scheduleId}/lock")
+    public SeatResponseDTO lockSeat(@PathVariable Long scheduleId,
                          @RequestParam String seatNumber) {
         return seatService.lockSeat(scheduleId, seatNumber);
     }

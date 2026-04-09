@@ -1,13 +1,18 @@
 package com.flightbooking.FlightInventoryService.Service;
+
+import com.flightbooking.FlightInventoryService.DTO.SeatResponseDTO;
 import com.flightbooking.FlightInventoryService.Entity.*;
+import com.flightbooking.FlightInventoryService.Mapper.SeatMapper;
 import com.flightbooking.FlightInventoryService.Repository.AircraftClassRepository;
 import com.flightbooking.FlightInventoryService.Repository.SeatMapRepository;
 import com.flightbooking.FlightInventoryService.Repository.SeatRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,67 +24,51 @@ public class SeatService {
     @Autowired
     private AircraftClassRepository aircraftClassRepository;
 
-    public List<Seat> getAvailableSeats(Long scheduleId) {
-        return seatRepository.findBySchedule_ScheduleIdAndSeatStatus(scheduleId, SeatStatus.AVAILABLE);
+    public List<SeatResponseDTO> getAvailableSeats(Long scheduleId) {
+        return seatRepository
+                .findBySchedule_ScheduleIdAndSeatStatus(scheduleId, SeatStatus.AVAILABLE)
+                .stream()
+                .map(SeatMapper::toDTO)
+                .toList();
     }
+    @Transactional
+    public SeatResponseDTO bookSeat(Long scheduleId, String seatNumber) {
 
-    public Seat bookSeat(Long scheduleId, String seatNumber) {
-
-        Seat seat = seatRepository
-                .findBySchedule_ScheduleIdAndSeatNumber(scheduleId, seatNumber)
+        Seat seat = seatRepository.findSeatForUpdate(scheduleId, seatNumber)
                 .orElseThrow(() -> new RuntimeException("Seat Not Found"));
-        if (seat.getSeatStatus() == SeatStatus.LOCKED) {
-
-            if (seat.getLockTime().plusMinutes(5).isBefore(LocalDateTime.now())) {
-
-                //  locked seat will be reset after 5 mins and becomes available
-                seat.setSeatStatus(SeatStatus.AVAILABLE);
-                seat.setLockTime(null);
-                seatRepository.save(seat);
-
-                throw new RuntimeException("Lock expired. Try again");
-            }
-        }
         if (seat.getSeatStatus() != SeatStatus.LOCKED) {
             throw new RuntimeException("Seat must be locked before booking");
         }
         AircraftClass cls = seat.getAircraftClass();
         Flight flight = seat.getSchedule().getFlight();
-
-
-        double basePrice = flight.getBasePrice();                         // base
+        double basePrice = flight.getBasePrice();
         double finalPrice = basePrice * cls.getPriceMultiplier();
         seat.setPrice(basePrice);
         seat.setFinalPrice(finalPrice);
         seat.setSeatStatus(SeatStatus.OCCUPIED);
         seat.setLockTime(null);
-        return seatRepository.save(seat);
+        return SeatMapper.toDTO(seatRepository.save(seat));
     }
+    @Transactional
+    public SeatResponseDTO lockSeat(Long scheduleId, String seatNumber) {
 
-    public Seat lockSeat(Long scheduleId, String seatNumber) {
-
-        Seat seat = seatRepository
-                .findBySchedule_ScheduleIdAndSeatNumber(scheduleId, seatNumber)
+        Seat seat = seatRepository.findSeatForUpdate(scheduleId, seatNumber)
                 .orElseThrow(() -> new RuntimeException("Seat Not Found"));
 
-        // if not available need to block
         if (seat.getSeatStatus() != SeatStatus.AVAILABLE) {
             throw new RuntimeException("Seat not available for locking");
         }
 
-        // lock seat
         seat.setSeatStatus(SeatStatus.LOCKED);
         seat.setLockTime(LocalDateTime.now());
 
-        return seatRepository.save(seat);
+        return SeatMapper.toDTO(seatRepository.save(seat));
     }
 
     public void releaseExpiredLocks() {
 
-        List<Seat> lockedSeats = seatRepository.findAll();
-
+        List<Seat> lockedSeats = seatRepository.findBySeatStatus(SeatStatus.LOCKED);
         for (Seat seat : lockedSeats) {
-
             if (seat.getSeatStatus() == SeatStatus.LOCKED &&
                     seat.getLockTime() != null &&
                     seat.getLockTime().plusMinutes(5).isBefore(LocalDateTime.now())) {

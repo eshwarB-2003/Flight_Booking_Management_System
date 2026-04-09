@@ -1,7 +1,7 @@
 package com.flightbooking.FlightInventoryService.Controller;
 
-import com.flightbooking.FlightInventoryService.DTO.SeatMapRequest;
-import com.flightbooking.FlightInventoryService.Entity.SeatMap;
+import com.flightbooking.FlightInventoryService.DTO.SeatMapRequestDTO;
+import com.flightbooking.FlightInventoryService.DTO.SeatMapResponseDTO;
 import com.flightbooking.FlightInventoryService.Service.SeatMapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class SeatMapController {
     private SeatMapService seatMapService;
 
     @PostMapping
-    public SeatMap createSeatMap(@RequestBody SeatMapRequest request) {
+    public SeatMapResponseDTO createSeatMap(@RequestBody SeatMapRequestDTO request) {
         return seatMapService.createSeatMap(
                 request.getAircraftId(),
                 request.getRows(),
@@ -24,7 +24,7 @@ public class SeatMapController {
     }
 
     @GetMapping("/{aircraftId}")
-    public SeatMap getAvailableSeats(@PathVariable String aircraftId) {
+    public SeatMapResponseDTO getAvailableSeats(@PathVariable String aircraftId) {
         return seatMapService.getSeatMap(aircraftId);
     }
 }
