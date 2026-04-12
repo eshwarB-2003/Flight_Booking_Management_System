@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$USER_HOME$/Downloads/postgres_localhost-2026_03_30_18_54_43-dump.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/AdminService/src/main/resources/schema_6.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/BookingService/src/main/resources/schema_3.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/FlightInventoryService/src/main/resources/Schema_2.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/NotificationService/src/main/resources/schema_5.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/PaymentService/src/main/resources/schema_4.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
     <file url="file://$PROJECT_DIR$/flight_booking_management_backend/UserService/src/main/resources/schema_1.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
-    <file url="file://$USER_HOME$/backup.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
-    <file url="file://$USER_HOME$/backup1.sql" value="fa3deab7-1d3f-4d69-830c-bd4d74e01459" />
   </component>
 </project>
