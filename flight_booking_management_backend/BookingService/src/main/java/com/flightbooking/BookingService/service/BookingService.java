@@ -9,6 +9,7 @@ import com.flightbooking.BookingService.factory.BookingFactory;
 import com.flightbooking.BookingService.repository.BookingRepository;
 import com.flightbooking.BookingService.repository.SeatReservationRepository;
 import com.flightbooking.BookingService.state.RequestedState;
+import com.flightbooking.BookingService.entity.BookingAncillary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
