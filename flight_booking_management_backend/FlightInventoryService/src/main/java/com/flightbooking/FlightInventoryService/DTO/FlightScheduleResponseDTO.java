@@ -13,10 +13,12 @@ public class FlightScheduleResponseDTO {
 
     private Long flightId;
     private String aircraftId;
-
+    private String flightNumber;
+    private String airline;
+    private String departureCity;
+    private String destination;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
-
     private Integer availableSeats;
     private String status;
 }

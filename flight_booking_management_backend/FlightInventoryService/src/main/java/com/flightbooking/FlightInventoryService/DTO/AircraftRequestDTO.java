@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 public class AircraftRequestDTO {
 
-    @NotBlank
     private String idType;
     @NotBlank
     private String model;

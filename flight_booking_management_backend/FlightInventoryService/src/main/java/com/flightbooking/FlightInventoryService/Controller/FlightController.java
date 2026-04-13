@@ -26,7 +26,7 @@ import java.util.List;
             return flightService.getAllFlights();
         }
     @DeleteMapping("/delete/{id}")
-    public String deleteFlight(@PathVariable Long id) {
+    public String cancelFlight(@PathVariable Long id) {
         flightService.deleteFlight(id);
         return "Flight cancelled successfully";
     }

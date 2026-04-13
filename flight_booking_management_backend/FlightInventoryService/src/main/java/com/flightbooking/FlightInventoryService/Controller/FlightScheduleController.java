@@ -26,6 +26,14 @@ public class FlightScheduleController {
 
         return service.updateSchedule(id, dto);
     }
+    @GetMapping("/search")
+    public List<FlightScheduleResponseDTO> searchFlights(
+            @RequestParam String from,
+            @RequestParam String to,
+            @RequestParam String date) {
+
+        return service.searchFlights(from, to, date);
+    }
     @GetMapping("/showAll")
     public List<FlightScheduleResponseDTO> getAllSchedules() {
         return service.getAllSchedules();

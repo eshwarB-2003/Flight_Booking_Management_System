@@ -13,6 +13,7 @@ import com.flightbooking.FlightInventoryService.Repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -157,5 +158,16 @@ public class FlightScheduleService {
         if (dto.getArrivalTime().isBefore(dto.getDepartureTime())) {
             throw new RuntimeException("Invalid schedule timing");
         }
+    }
+    public List<FlightScheduleResponseDTO> searchFlights(String from, String to, String date) {
+
+        LocalDate searchDate = LocalDate.parse(date);
+
+        List<FlightSchedule> schedules =
+                scheduleRepository.findByRouteAndDate(from, to, searchDate);
+
+        return schedules.stream()
+                .map(FlightScheduleMapper::toDTO)
+                .toList();
     }
 }
