@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/seats")
 public class SeatController {
@@ -28,6 +28,10 @@ public class SeatController {
     public SeatResponseDTO lockSeat(@PathVariable Long scheduleId,
                          @RequestParam String seatNumber) {
         return seatService.lockSeat(scheduleId, seatNumber);
+    }
+    @GetMapping("/{scheduleId}")
+    public List<SeatResponseDTO> getAllSeats(@PathVariable Long scheduleId) {
+        return seatService.getAllSeats(scheduleId);
     }
 
 }

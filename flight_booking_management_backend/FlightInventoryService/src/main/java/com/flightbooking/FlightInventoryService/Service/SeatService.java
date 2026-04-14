@@ -64,7 +64,6 @@ public class SeatService {
 
         return SeatMapper.toDTO(seatRepository.save(seat));
     }
-
     public void releaseExpiredLocks() {
 
         List<Seat> lockedSeats = seatRepository.findBySeatStatus(SeatStatus.LOCKED);
@@ -80,7 +79,12 @@ public class SeatService {
             }
         }
     }
-
+    public List<SeatResponseDTO> getAllSeats(Long scheduleId) {
+        return seatRepository.findBySchedule_ScheduleId(scheduleId)
+                .stream()
+                .map(SeatMapper::toDTO)
+                .toList();
+    }
 
     public void generateSeats(FlightSchedule flightSchedule) {
 

@@ -14,6 +14,7 @@ public class SeatMapper {
                 .price(seat.getPrice())
                 .finalPrice(seat.getFinalPrice())
                 .scheduleId(seat.getSchedule().getScheduleId())
+                .lockTime(seat.getLockTime())
                 .build();
     }
 }

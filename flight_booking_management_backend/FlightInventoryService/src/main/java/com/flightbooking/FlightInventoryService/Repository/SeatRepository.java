@@ -19,6 +19,9 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
 
     // find specific seat in a schedule
     Optional<Seat> findBySchedule_ScheduleIdAndSeatNumber(Long scheduleId, String seatNumber);
+
+    List<Seat> findBySchedule_ScheduleId(Long scheduleId);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("""
 SELECT s FROM Seat s

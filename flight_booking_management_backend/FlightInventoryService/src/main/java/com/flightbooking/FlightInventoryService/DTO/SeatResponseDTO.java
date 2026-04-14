@@ -4,6 +4,8 @@ import com.flightbooking.FlightInventoryService.Entity.SeatStatus;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class SeatResponseDTO {
@@ -15,6 +17,6 @@ public class SeatResponseDTO {
 
     private Double price;
     private Double finalPrice;
-
+    private LocalDateTime lockTime;
     private Long scheduleId;
 }
