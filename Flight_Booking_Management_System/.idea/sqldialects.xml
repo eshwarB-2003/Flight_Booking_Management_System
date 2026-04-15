@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/flight_booking_management_backend/AdminService/src/main/resources/schema_6.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/flight_booking_management_backend/BookingService/src/main/resources/schema_3.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/flight_booking_management_backend/FlightInventoryService/src/main/resources/Schema_2.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/flight_booking_management_backend/NotificationService/src/main/resources/schema_5.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/flight_booking_management_backend/PaymentService/src/main/resources/schema_4.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/flight_booking_management_backend/UserService/src/main/resources/schema_1.sql" dialect="PostgreSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
+  </component>
+</project>
