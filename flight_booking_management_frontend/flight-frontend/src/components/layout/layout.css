@@ -1,0 +1,29 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #12265e;
+  color: white;
+  height: 100px
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-links button {
+  margin-left: 12px;
+  padding: 6px 12px;
+  border: none;
+  background: white;
+  color: #12265e;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav-links button:hover {
+  background: #e0e7ff;
+}   
