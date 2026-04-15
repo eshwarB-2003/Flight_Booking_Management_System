@@ -3,6 +3,7 @@ import { api } from "../api/api";
 import SearchForm from "../components/SearchForm";
 import FlightCard from "../components/FlightCard";
 import SeatGrid from "../components/SeatGrid";
+import SeatLegend from "../components/SeatLegend";
 
 export default function FlightSearchPage() {
   const [flights, setFlights] = useState<any[]>([]);
@@ -78,6 +79,7 @@ export default function FlightSearchPage() {
     {selectedSchedule && (
       <>
         <h2>Select Seat</h2>
+         <SeatLegend />
         <SeatGrid
   seats={seats}
   onSeatClick={handleSeatClick}
