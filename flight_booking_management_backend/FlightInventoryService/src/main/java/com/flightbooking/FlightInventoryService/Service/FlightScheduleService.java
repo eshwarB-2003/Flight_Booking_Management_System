@@ -58,8 +58,7 @@ public class FlightScheduleService {
 
         return schedule;
     }
-    // schedule updation ,
-    /* Guys Need of Delete Schedule is not needed as i thought possibilities of that would be less */
+  
     public FlightSchedule updateSchedule(Long id, FlightSchedule request) {
 
         FlightSchedule existing = scheduleRepository.findById(id)

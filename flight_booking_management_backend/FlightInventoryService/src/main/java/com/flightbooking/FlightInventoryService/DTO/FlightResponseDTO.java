@@ -1,43 +1,19 @@
-package com.flightbooking.FlightInventoryService.Entity;
+package com.flightbooking.FlightInventoryService.DTO;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import com.flightbooking.FlightInventoryService.Entity.FlightStatus;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "flight")
 @Data
-@NoArgsConstructor
-public class Flight {
+public class FlightResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long flightId;
-
-    @NotBlank
-    @Column(nullable = false, unique = true)
     private String flightNumber;
-
-    @NotBlank
-    @Column(nullable = false)
     private String airline;
-
-    @NotBlank
-    @Column(nullable = false)
     private String departureCity;
-
-    @NotBlank
-    @Column(nullable = false)
     private String departureDestination;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private FlightStatus status;
-
-    @Column(nullable = false)
     private Double basePrice;
-    
+
     public Long getFlightId() {
 		return flightId;
 	}
@@ -94,11 +70,7 @@ public class Flight {
 		this.basePrice = basePrice;
 	}
 
-	public Flight() {
-    	
-    }
-
-    private Flight(Builder builder) {
+	private FlightResponseDTO(Builder builder) {
         this.flightId = builder.flightId;
         this.flightNumber = builder.flightNumber;
         this.airline = builder.airline;
@@ -107,7 +79,6 @@ public class Flight {
         this.status = builder.status;
         this.basePrice = builder.basePrice;
     }
-
 
     public static class Builder {
         private Long flightId;
@@ -153,14 +124,8 @@ public class Flight {
             return this;
         }
 
-        public Flight build() {
-            if (flightNumber == null || flightNumber.isBlank()) {
-                throw new IllegalArgumentException("Flight number is required");
-            }
-            if (basePrice == null || basePrice < 0) {
-                throw new IllegalArgumentException("Base price must be >= 0");
-            }
-            return new Flight(this);
+        public FlightResponseDTO build() {
+            return new FlightResponseDTO(this);
         }
     }
 
