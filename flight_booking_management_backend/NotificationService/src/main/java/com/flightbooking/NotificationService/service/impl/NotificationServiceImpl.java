@@ -11,7 +11,6 @@ import com.flightbooking.NotificationService.service.EmailService;
 import com.flightbooking.NotificationService.service.NotificationService;
 import com.flightbooking.NotificationService.service.SmsService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,31 +23,22 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class NotificationServiceImpl implements NotificationService {
-	
-	private static final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
-	@Autowired
+
+    private static final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
+
+    @Autowired
     private EmailService emailService;
-	@Autowired
+    @Autowired
     private SmsService smsService;
-	@Autowired
+    @Autowired
     private NotificationRepository notificationRepository;
 
-    // ---------------------------------------------------------------
-    // Kafka event handlers
-    // ---------------------------------------------------------------
-
-    /**
-     * Called by KafkaConsumer when a booking-confirmed event arrives.
-     * Sends both email and SMS (if phone available).
-     */
     @Override
     @Transactional
     public void handleBookingConfirmed(BookingEventDTO event) {
         log.info("Handling booking confirmed event for bookingId={}", event.getBookingId());
 
-        // Guard: avoid duplicate notifications
         if (notificationRepository.existsByBookingIdAndNotificationType(
                 event.getBookingId(), NotificationType.BOOKING_CONFIRMATION)) {
             log.warn("Confirmation notification already sent for bookingId={}, skipping.", event.getBookingId());
@@ -59,9 +49,6 @@ public class NotificationServiceImpl implements NotificationService {
         sendSMSNotification(event, BookingStatus.CONFIRMED);
     }
 
-    /**
-     * Called by KafkaConsumer when a booking-cancelled event arrives.
-     */
     @Override
     @Transactional
     public void handleBookingCancelled(BookingEventDTO event) {
@@ -77,13 +64,6 @@ public class NotificationServiceImpl implements NotificationService {
         sendSMSNotification(event, BookingStatus.CANCELLED);
     }
 
-    // ---------------------------------------------------------------
-    // REST API handlers
-    // ---------------------------------------------------------------
-
-    /**
-     * POST /api/v1/notifications/booking-confirmation
-     */
     @Override
     @Transactional
     public NotificationResponse sendBookingConfirmationNotification(BookingConfirmationRequest request) {
@@ -111,23 +91,12 @@ public class NotificationServiceImpl implements NotificationService {
         emailService.sendBookingConfirmationEmail(event);
         smsService.sendBookingConfirmationSms(event);
 
-        // Return latest saved record for this booking + type
         return notificationRepository
-                .findByBookingIdOrderByCreatedAtDesc(request.getBookingId())
-                .stream()
-                .filter(n -> n.getNotificationType() == NotificationType.BOOKING_CONFIRMATION)
-                .findFirst()
-                .map(this::toResponse)
-                .orElse(NotificationResponse.builder()
-                        .bookingId(request.getBookingId())
-                        .status("SENT")
-                        .message("Confirmation notifications dispatched.")
-                        .build());
+                .findByBookingIdOrderByCreatedAtDesc(request.getBookingId()).stream()
+                .filter(n -> n.getNotificationType() == NotificationType.BOOKING_CONFIRMATION).findFirst()
+                .map(this::toResponse).orElse(NotificationResponse.builder().bookingId(request.getBookingId()).status("SENT").build());
     }
 
-    /**
-     * POST /api/v1/notifications/booking-cancelled
-     */
     @Override
     @Transactional
     public NotificationResponse sendBookingCancellationNotification(BookingCancellationRequest request) {
@@ -155,16 +124,9 @@ public class NotificationServiceImpl implements NotificationService {
                 .filter(n -> n.getNotificationType() == NotificationType.BOOKING_CANCELLATION)
                 .findFirst()
                 .map(this::toResponse)
-                .orElse(NotificationResponse.builder()
-                        .bookingId(request.getBookingId())
-                        .status("SENT")
-                        .message("Cancellation notifications dispatched.")
-                        .build());
+                .orElse(NotificationResponse.builder().bookingId(request.getBookingId()).status("SENT").build());
     }
 
-    /**
-     * POST /api/v1/notifications/email
-     */
     @Override
     @Transactional
     public NotificationResponse sendEmailNotification(DirectEmailRequest request) {
@@ -179,16 +141,9 @@ public class NotificationServiceImpl implements NotificationService {
                 .filter(n -> n.getNotificationType() == NotificationType.GENERAL)
                 .findFirst()
                 .map(this::toResponse)
-                .orElse(NotificationResponse.builder()
-                        .userId(request.getUserId())
-                        .status("SENT")
-                        .message("Email dispatched.")
-                        .build());
+                .orElse(NotificationResponse.builder().userId(request.getUserId()).status("SENT").build());
     }
 
-    /**
-     * GET /api/v1/notifications/user/{userId}
-     */
     @Override
     public List<NotificationResponse> getUserNotifications(Long userId) {
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId)
@@ -197,9 +152,6 @@ public class NotificationServiceImpl implements NotificationService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * GET /api/v1/notifications/booking/{bookingId}
-     */
     @Override
     public List<NotificationResponse> getNotificationsByBooking(Long bookingId) {
         return notificationRepository.findByBookingIdOrderByCreatedAtDesc(bookingId)
@@ -208,9 +160,6 @@ public class NotificationServiceImpl implements NotificationService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * POST /api/v1/notifications/{notificationId}/retry
-     */
     @Override
     @Transactional
     public NotificationResponse retryFailedNotification(Long notificationId) {
@@ -224,8 +173,6 @@ public class NotificationServiceImpl implements NotificationService {
 
         log.info("Retrying notification id={}, attempt #{}", notificationId, notification.getRetryCount() + 1);
         notification.incrementRetry();
-
-        // Re-build a minimal event from stored data and re-dispatch
         BookingEventDTO event = BookingEventDTO.builder()
                 .bookingId(notification.getBookingId())
                 .userId(notification.getUserId())
@@ -237,13 +184,12 @@ public class NotificationServiceImpl implements NotificationService {
                 case BOOKING_CONFIRMATION -> emailService.sendBookingConfirmationEmail(event);
                 case BOOKING_CANCELLATION -> emailService.sendBookingCancellationEmail(event);
                 default -> {
-                    DirectEmailRequest req = DirectEmailRequest.builder()
-                            .userId(notification.getUserId())
-                            .bookingId(notification.getBookingId())
-                            .recipientEmail(notification.getRecipient())
-                            .subject("Notification Retry")
-                            .message(notification.getMessage())
-                            .build();
+                    DirectEmailRequest req = new DirectEmailRequest();
+                    req.setUserId(notification.getUserId());
+                    req.setBookingId(notification.getBookingId());
+                    req.setRecipientEmail(notification.getRecipient());
+                    req.setSubject("Notification Retry");
+                    req.setMessage(notification.getMessage()); // ← uses entity getter, not DTO builder
                     emailService.sendDirectEmail(req);
                 }
             }
@@ -257,19 +203,13 @@ public class NotificationServiceImpl implements NotificationService {
         return toResponse(notification);
     }
 
-    // ---------------------------------------------------------------
-    // Called by ReminderScheduler (interface compliance)
-    // ---------------------------------------------------------------
-
     @Override
     public void sendEmailNotification() {
-        // Hook for scheduler — actual logic in EmailService
         log.debug("sendEmailNotification() stub called from scheduler");
     }
 
     @Override
     public void sendSMSNotification() {
-        // Hook for scheduler — actual logic in SmsService
         log.debug("sendSMSNotification() stub called from scheduler");
     }
 
@@ -277,10 +217,6 @@ public class NotificationServiceImpl implements NotificationService {
     public void saveNotificationRecord(Notification notification) {
         notificationRepository.save(notification);
     }
-
-    // ---------------------------------------------------------------
-    // Private helpers
-    // ---------------------------------------------------------------
 
     private void sendEmailNotification(BookingEventDTO event, BookingStatus status) {
         if (status == BookingStatus.CONFIRMED) {
@@ -304,7 +240,6 @@ public class NotificationServiceImpl implements NotificationService {
                 .bookingId(n.getBookingId())
                 .userId(n.getUserId())
                 .recipient(n.getRecipient())
-                .message(n.getMessage())
                 .status(n.getStatus().name())
                 .notificationType(n.getNotificationType().name())
                 .channel(n.getChannel().name())

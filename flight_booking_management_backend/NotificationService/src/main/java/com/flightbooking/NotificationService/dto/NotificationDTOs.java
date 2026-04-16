@@ -171,9 +171,6 @@ public class NotificationDTOs {
         }
     }
 
-    // ---------------------------------------------------------------
-    // NotificationResponse
-    // ---------------------------------------------------------------
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -182,7 +179,6 @@ public class NotificationDTOs {
         private Long bookingId;
         private Long userId;
         private String recipient;
-        private String message;
         private String status;
         private String notificationType;
         private String channel;
@@ -190,7 +186,6 @@ public class NotificationDTOs {
         private int retryCount;
         private String errorMessage;
 
-        // Getters and Setters
         public Long getNotificationId() { return notificationId; }
         public void setNotificationId(Long notificationId) { this.notificationId = notificationId; }
         public Long getBookingId() { return bookingId; }
@@ -199,8 +194,6 @@ public class NotificationDTOs {
         public void setUserId(Long userId) { this.userId = userId; }
         public String getRecipient() { return recipient; }
         public void setRecipient(String recipient) { this.recipient = recipient; }
-        public String getMessage() { return message; }
-        public void setMessage(String message) { this.message = message; }
         public String getStatus() { return status; }
         public void setStatus(String status) { this.status = status; }
         public String getNotificationType() { return notificationType; }
@@ -214,7 +207,7 @@ public class NotificationDTOs {
         public String getErrorMessage() { return errorMessage; }
         public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
-        // Manual Builder
+
         public static NotificationResponseBuilder builder() { return new NotificationResponseBuilder(); }
 
         public static class NotificationResponseBuilder {
@@ -222,7 +215,7 @@ public class NotificationDTOs {
             private Long bookingId;
             private Long userId;
             private String recipient;
-            private String message;
+            // remove → private String message;
             private String status;
             private String notificationType;
             private String channel;
@@ -234,7 +227,6 @@ public class NotificationDTOs {
             public NotificationResponseBuilder bookingId(Long bookingId) { this.bookingId = bookingId; return this; }
             public NotificationResponseBuilder userId(Long userId) { this.userId = userId; return this; }
             public NotificationResponseBuilder recipient(String recipient) { this.recipient = recipient; return this; }
-            public NotificationResponseBuilder message(String message) { this.message = message; return this; }
             public NotificationResponseBuilder status(String status) { this.status = status; return this; }
             public NotificationResponseBuilder notificationType(String notificationType) { this.notificationType = notificationType; return this; }
             public NotificationResponseBuilder channel(String channel) { this.channel = channel; return this; }
@@ -248,7 +240,6 @@ public class NotificationDTOs {
                 r.setBookingId(bookingId);
                 r.setUserId(userId);
                 r.setRecipient(recipient);
-                r.setMessage(message);
                 r.setStatus(status);
                 r.setNotificationType(notificationType);
                 r.setChannel(channel);
@@ -260,9 +251,6 @@ public class NotificationDTOs {
         }
     }
 
-    // ---------------------------------------------------------------
-    // ApiResponse (already fixed previously — keep as is)
-    // ---------------------------------------------------------------
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

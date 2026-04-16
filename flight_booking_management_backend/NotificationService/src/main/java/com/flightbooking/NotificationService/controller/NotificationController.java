@@ -15,19 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * REST controller for all Notification Service endpoints.
- *
- * Endpoints:
- *  POST  /api/v1/notifications/booking-confirmation
- *  POST  /api/v1/notifications/booking-cancelled
- *  POST  /api/v1/notifications/email
- *  GET   /api/v1/notifications/user/{userId}
- *  GET   /api/v1/notifications/booking/{bookingId}
- *  POST  /api/v1/notifications/{notificationId}/retry
- */
 @RestController
-@RequestMapping("/api/v1/notifications")
+@RequestMapping("/api/notifications")
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationController {
@@ -36,14 +25,9 @@ public class NotificationController {
 	@Autowired
     private NotificationService notificationService;
 
-    // ---------------------------------------------------------------
-    // 1. POST /api/v1/notifications/booking-confirmation
-    // ---------------------------------------------------------------
-
-    /**
-     * Sends a booking confirmation email + SMS.
-     * Called after payment is successful and booking is CONFIRMED.
-     */
+ 
+    // POST /api/notifications/booking-confirmation
+   
     @PostMapping("/booking-confirmation")
     public ResponseEntity<ApiResponse<NotificationResponse>> sendBookingConfirmation(
             @Valid @RequestBody BookingConfirmationRequest request) {
@@ -56,14 +40,9 @@ public class NotificationController {
                 .body(ApiResponse.success("Booking confirmation notification sent successfully.", response));
     }
 
-    // ---------------------------------------------------------------
-    // 2. POST /api/v1/notifications/booking-cancelled
-    // ---------------------------------------------------------------
-
-    /**
-     * Sends a booking cancellation email + SMS.
-     * Called after booking status changes to CANCELLED.
-     */
+   
+    // POST /api/notifications/booking-cancelled
+   
     @PostMapping("/booking-cancelled")
     public ResponseEntity<ApiResponse<NotificationResponse>> sendBookingCancellation(
             @Valid @RequestBody BookingCancellationRequest request) {
@@ -76,14 +55,7 @@ public class NotificationController {
                 .body(ApiResponse.success("Booking cancellation notification sent successfully.", response));
     }
 
-    // ---------------------------------------------------------------
-    // 3. POST /api/v1/notifications/email
-    // ---------------------------------------------------------------
-
-    /**
-     * Sends a custom/direct email notification.
-     * Used for general-purpose email delivery.
-     */
+    //POST /api/notifications/email
     @PostMapping("/email")
     public ResponseEntity<ApiResponse<NotificationResponse>> sendEmailNotification(
             @Valid @RequestBody DirectEmailRequest request) {
@@ -96,14 +68,8 @@ public class NotificationController {
                 .body(ApiResponse.success("Email notification sent successfully.", response));
     }
 
-    // ---------------------------------------------------------------
-    // 4. GET /api/v1/notifications/user/{userId}
-    // ---------------------------------------------------------------
+    // GET /api/notifications/user/{userId}
 
-    /**
-     * Retrieves all notifications for a given user.
-     * Ordered by most recent first.
-     */
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse<List<NotificationResponse>>> getUserNotifications(
             @PathVariable Long userId) {
@@ -121,13 +87,9 @@ public class NotificationController {
                 ApiResponse.success("Fetched " + notifications.size() + " notification(s).", notifications));
     }
 
-    // ---------------------------------------------------------------
-    // 5. GET /api/v1/notifications/booking/{bookingId}
-    // ---------------------------------------------------------------
-
-    /**
-     * Retrieves all notifications linked to a specific booking.
-     */
+   
+    // GET /api/notifications/booking/{bookingId}
+    
     @GetMapping("/booking/{bookingId}")
     public ResponseEntity<ApiResponse<List<NotificationResponse>>> getNotificationsByBooking(
             @PathVariable Long bookingId) {
@@ -141,14 +103,9 @@ public class NotificationController {
                         notifications));
     }
 
-    // ---------------------------------------------------------------
-    // 6. POST /api/v1/notifications/{notificationId}/retry
-    // ---------------------------------------------------------------
-
-    /**
-     * Retries a FAILED notification.
-     * Returns 400 if the notification is not in FAILED state.
-     */
+   
+    // POST /api/notifications/{notificationId}/retry
+    
     @PostMapping("/{notificationId}/retry")
     public ResponseEntity<ApiResponse<NotificationResponse>> retryNotification(
             @PathVariable Long notificationId) {

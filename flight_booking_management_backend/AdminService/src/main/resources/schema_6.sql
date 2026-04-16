@@ -9,3 +9,6 @@ CREATE TABLE audit_log (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 SELECT * FROM audit_log;
+
+
+SELECT * FROM audit_log ORDER BY log_id DESC;

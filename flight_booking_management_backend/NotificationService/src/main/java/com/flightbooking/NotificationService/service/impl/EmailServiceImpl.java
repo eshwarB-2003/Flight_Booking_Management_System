@@ -39,9 +39,6 @@ public class EmailServiceImpl implements EmailService {
     @Value("${notification.email.from-name}")
     private String fromName;
 
-    // ---------------------------------------------------------------
-    // Booking Confirmation Email
-    // ---------------------------------------------------------------
 
     @Override
     public void sendBookingConfirmationEmail(BookingEventDTO event) {
@@ -93,10 +90,6 @@ public class EmailServiceImpl implements EmailService {
         emailNotificationRepository.save(emailNotification);
     }
 
-    // ---------------------------------------------------------------
-    // Booking Cancellation Email
-    // ---------------------------------------------------------------
-
     @Override
     public void sendBookingCancellationEmail(BookingEventDTO event) {
         String subject = "Booking Cancelled – " + event.getBookingReference();
@@ -134,9 +127,6 @@ public class EmailServiceImpl implements EmailService {
         emailNotificationRepository.save(emailNotification);
     }
 
-    // ---------------------------------------------------------------
-    // Direct / Custom Email  – POST /api/v1/notifications/email
-    // ---------------------------------------------------------------
 
     @Override
     public void sendDirectEmail(DirectEmailRequest request) {
@@ -161,10 +151,6 @@ public class EmailServiceImpl implements EmailService {
 
         emailNotificationRepository.save(emailNotification);
     }
-
-    // ---------------------------------------------------------------
-    // Check-In Reminder Email
-    // ---------------------------------------------------------------
 
     @Override
     public void sendCheckInReminderEmail(Long bookingId, String recipientEmail,
@@ -198,10 +184,6 @@ public class EmailServiceImpl implements EmailService {
 
         emailNotificationRepository.save(emailNotification);
     }
-
-    // ---------------------------------------------------------------
-    // Internal helper – send actual MIME email
-    // ---------------------------------------------------------------
 
     private void sendHtmlEmail(String to, String subject, String htmlBody) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
