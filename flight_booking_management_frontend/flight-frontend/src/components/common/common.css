@@ -1,0 +1,23 @@
+.btn {
+  padding: 10px 16px;
+  background: #183e8f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #102c78;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+input {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

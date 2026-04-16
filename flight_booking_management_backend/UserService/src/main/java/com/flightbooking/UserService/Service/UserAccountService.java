@@ -10,6 +10,8 @@ import com.flightbooking.UserService.Entity.User;
 import com.flightbooking.UserService.Repository.UserRepository;
 import com.flightbooking.UserService.Security.JwtService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +22,14 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class UserAccountService {
-
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+	@Autowired
+    private UserRepository userRepository;
+	@Autowired
+    private PasswordEncoder passwordEncoder;
+	@Autowired
+    private AuthenticationManager authenticationManager;
+	@Autowired
+    private JwtService jwtService;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {

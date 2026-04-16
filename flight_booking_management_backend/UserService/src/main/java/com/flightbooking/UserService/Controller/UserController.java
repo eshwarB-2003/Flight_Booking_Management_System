@@ -11,6 +11,8 @@ import com.flightbooking.UserService.DTO.UserResponse;
 import com.flightbooking.UserService.Service.UserAccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -22,8 +24,8 @@ import java.util.Map;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-
-    private final UserAccountService userAccountService;
+	@Autowired
+    private UserAccountService userAccountService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
