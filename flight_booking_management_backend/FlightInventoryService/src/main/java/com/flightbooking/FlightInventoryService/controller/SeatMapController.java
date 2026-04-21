@@ -1,4 +1,4 @@
-package com.flightbooking.FlightInventoryService.controller;
+package com.flightbooking.FlightInventoryService.Controller;
 
 import com.flightbooking.FlightInventoryService.DTO.SeatMapRequest;
 import com.flightbooking.FlightInventoryService.Entity.SeatMap;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/seatmap")
 public class SeatMapController {
     @Autowired

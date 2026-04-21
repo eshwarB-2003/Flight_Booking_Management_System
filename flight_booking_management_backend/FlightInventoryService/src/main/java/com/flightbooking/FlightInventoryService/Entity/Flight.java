@@ -94,10 +94,6 @@ public class Flight {
 		this.basePrice = basePrice;
 	}
 
-	public Flight() {
-    	
-    }
-
     private Flight(Builder builder) {
         this.flightId = builder.flightId;
         this.flightNumber = builder.flightNumber;
