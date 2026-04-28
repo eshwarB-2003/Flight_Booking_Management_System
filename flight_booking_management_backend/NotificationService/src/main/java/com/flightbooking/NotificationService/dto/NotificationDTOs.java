@@ -3,18 +3,10 @@ package com.flightbooking.NotificationService.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 public class NotificationDTOs {
 
-    // ---------------------------------------------------------------
-    // BookingConfirmationRequest
-    // ---------------------------------------------------------------
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
+
     public static class BookingConfirmationRequest {
         @NotNull(message = "Booking ID is required")
         private Long bookingId;
@@ -37,7 +29,6 @@ public class NotificationDTOs {
         private String seatNumbers;
         private Double totalAmount;
 
-        // Getters and Setters
         public Long getBookingId() { return bookingId; }
         public void setBookingId(Long bookingId) { this.bookingId = bookingId; }
         public Long getUserId() { return userId; }
@@ -66,12 +57,6 @@ public class NotificationDTOs {
         public void setTotalAmount(Double totalAmount) { this.totalAmount = totalAmount; }
     }
 
-    // ---------------------------------------------------------------
-    // BookingCancellationRequest
-    // ---------------------------------------------------------------
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class BookingCancellationRequest {
         @NotNull(message = "Booking ID is required")
         private Long bookingId;
@@ -90,7 +75,6 @@ public class NotificationDTOs {
         private Double refundAmount;
         private String cancellationReason;
 
-        // Getters and Setters
         public Long getBookingId() { return bookingId; }
         public void setBookingId(Long bookingId) { this.bookingId = bookingId; }
         public Long getUserId() { return userId; }
@@ -113,12 +97,7 @@ public class NotificationDTOs {
         public void setCancellationReason(String cancellationReason) { this.cancellationReason = cancellationReason; }
     }
 
-    // ---------------------------------------------------------------
-    // DirectEmailRequest
-    // ---------------------------------------------------------------
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
+
     public static class DirectEmailRequest {
         @NotNull(message = "User ID is required")
         private Long userId;
@@ -131,7 +110,6 @@ public class NotificationDTOs {
         @NotBlank(message = "Message body is required")
         private String message;
 
-        // Getters and Setters
         public Long getUserId() { return userId; }
         public void setUserId(Long userId) { this.userId = userId; }
         public Long getBookingId() { return bookingId; }
@@ -143,7 +121,7 @@ public class NotificationDTOs {
         public String getMessage() { return message; }
         public void setMessage(String message) { this.message = message; }
 
-        // Manual Builder
+
         public static DirectEmailRequestBuilder builder() { return new DirectEmailRequestBuilder(); }
 
         public static class DirectEmailRequestBuilder {
@@ -171,9 +149,7 @@ public class NotificationDTOs {
         }
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
+
     public static class NotificationResponse {
         private Long notificationId;
         private Long bookingId;
@@ -215,7 +191,6 @@ public class NotificationDTOs {
             private Long bookingId;
             private Long userId;
             private String recipient;
-            // remove → private String message;
             private String status;
             private String notificationType;
             private String channel;
@@ -251,9 +226,6 @@ public class NotificationDTOs {
         }
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class ApiResponse<T> {
         private boolean success;
         private String message;

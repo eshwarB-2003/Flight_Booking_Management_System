@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "flight")
-@Data
 @NoArgsConstructor
 public class Flight {
 
@@ -93,10 +92,6 @@ public class Flight {
 	public void setBasePrice(Double basePrice) {
 		this.basePrice = basePrice;
 	}
-
-	public Flight() {
-    	
-    }
 
     private Flight(Builder builder) {
         this.flightId = builder.flightId;
