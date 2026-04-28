@@ -1,11 +1,9 @@
 package com.flightbooking.FlightInventoryService.Service;
 
-import com.flightbooking.FlightInventoryService.DTO.FlightScheduleResponseDTO;
 import com.flightbooking.FlightInventoryService.Entity.Aircraft;
 import com.flightbooking.FlightInventoryService.Entity.Flight;
 import com.flightbooking.FlightInventoryService.Entity.FlightSchedule;
 import com.flightbooking.FlightInventoryService.Entity.ScheduleStatus;
-import com.flightbooking.FlightInventoryService.Mapper.FlightScheduleMapper;
 import com.flightbooking.FlightInventoryService.Repository.AircraftRepository;
 import com.flightbooking.FlightInventoryService.Repository.FlightRepository;
 import com.flightbooking.FlightInventoryService.Repository.FlightScheduleRepository;
@@ -13,10 +11,7 @@ import com.flightbooking.FlightInventoryService.Repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FlightScheduleService {
@@ -92,16 +87,4 @@ public class FlightScheduleService {
     public List<FlightSchedule> getAllSchedules() {
         return scheduleRepository.findAll();
     }
-     public List<FlightScheduleResponseDTO> searchFlights(String from, String to, LocalDate date) {
-
-    LocalDateTime start = date.atStartOfDay();
-    LocalDateTime end = date.plusDays(1).atStartOfDay();
-
-    List<FlightSchedule> schedules =
-        scheduleRepository.searchFlights(from, to, start, end);
-
-  return schedules.stream()
-        .map(FlightScheduleMapper::toDTO)
-        .collect(Collectors.toList());
-}
 }

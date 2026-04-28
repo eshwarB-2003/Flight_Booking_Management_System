@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table (name = "seat")
@@ -29,14 +28,12 @@ public class Seat {
     private Double price;
     private Double finalPrice;
     @ManyToOne
-	@JsonIgnore   
     @JoinColumn(name = "schedule_id")
     private FlightSchedule schedule;
     @Column(name = "lock_time", nullable = true)
     private LocalDateTime lockTime;
     @ManyToOne
     @JoinColumn(name = "class_id")
-	@JsonIgnore   
     private AircraftClass aircraftClass;
 	public Long getSeatId() {
 		return seatId;

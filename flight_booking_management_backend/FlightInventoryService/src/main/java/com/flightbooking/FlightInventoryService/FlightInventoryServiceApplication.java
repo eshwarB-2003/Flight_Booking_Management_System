@@ -7,7 +7,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 public class FlightInventoryServiceApplication {
-public static void main(String[] args) {
+
+	public static void main(String[] args) {
 		SpringApplication.run(FlightInventoryServiceApplication.class, args);
 	}
 

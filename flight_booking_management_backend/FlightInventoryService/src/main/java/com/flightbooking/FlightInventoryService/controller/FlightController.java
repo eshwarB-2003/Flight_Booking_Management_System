@@ -1,4 +1,4 @@
-package com.flightbooking.FlightInventoryService.Controller;
+package com.flightbooking.FlightInventoryService.controller;
 
 
 import com.flightbooking.FlightInventoryService.Entity.Flight;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
     @RequestMapping("/api/flights")
     public class FlightController {
 

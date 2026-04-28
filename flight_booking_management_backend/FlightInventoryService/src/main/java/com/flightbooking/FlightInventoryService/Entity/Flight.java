@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "flight")
-@Data
 @NoArgsConstructor
 public class Flight {
 

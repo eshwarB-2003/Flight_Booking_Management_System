@@ -20,8 +20,9 @@ public class SeatService {
     private AircraftClassRepository aircraftClassRepository;
 
     public List<Seat> getAvailableSeats(Long scheduleId) {
-    return seatRepository.findBySchedule_ScheduleId(scheduleId);
-}
+        return seatRepository.findBySchedule_ScheduleIdAndSeatStatus(scheduleId, SeatStatus.AVAILABLE);
+    }
+
     public Seat bookSeat(Long scheduleId, String seatNumber) {
 
         Seat seat = seatRepository
