@@ -162,7 +162,7 @@ graph TD
     BookingService --> PaymentService
     BookingService --> Kafka
     Kafka --> NotificationService
-
+```
 
 ---
 
