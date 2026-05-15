@@ -162,3 +162,111 @@ graph TD
     BookingService --> PaymentService
     BookingService --> Kafka
     Kafka --> NotificationService
+
+
+---
+
+# 🐳 Dockerized Setup & Running
+
+This project is fully containerized using **Docker** and **Docker Compose**, enabling all microservices and infrastructure components to run together seamlessly.
+
+---
+
+## 📋 Prerequisites
+
+Make sure the following are installed on your system:
+
+- Docker
+- Docker Compose
+
+Verify installation:
+
+```bash
+docker --version
+docker compose version
+```
+
+---
+
+## 🚀 Build and Start the System
+
+From the project root directory, run:
+
+```bash
+docker compose up -d --build
+```
+
+This command will:
+
+- Build all microservices
+- Start containers in detached mode
+- Create required Docker networks
+- Launch infrastructure services automatically
+
+---
+
+## 🌐 Access Services
+
+| Service | URL |
+|---|---|
+| Eureka Dashboard | http://localhost:8761 |
+| Kafka UI | http://localhost:9090 |
+| Frontend Application | http://localhost:3000 |
+| PostgreSQL | localhost:5432 |
+
+---
+
+## 🛑 Stop the System
+
+To stop all running containers:
+
+```bash
+docker compose down
+```
+
+To remove volumes as well:
+
+```bash
+docker compose down -v
+```
+
+---
+
+## 🔄 Rebuild After Code Changes
+
+If changes are made to services:
+
+```bash
+docker compose up -d --build
+```
+
+---
+
+## 📦 Dockerized Services
+
+The system includes containerized versions of:
+
+- API Gateway
+- Eureka Discovery Server
+- User Service
+- Flight Inventory Service
+- Booking Service
+- Payment Service
+- Notification Service
+- Kafka + Zookeeper
+- PostgreSQL
+- Frontend (React + TypeScript)
+
+---
+
+## ✅ Features Enabled in Dockerized Environment
+
+- Service Discovery using Eureka
+- Inter-service communication
+- Kafka-based event processing
+- JWT authentication
+- Real-time booking workflow
+- Persistent PostgreSQL storage
+- Full microservices orchestration
+
+---
